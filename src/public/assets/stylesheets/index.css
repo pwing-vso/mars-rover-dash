@@ -1,0 +1,120 @@
+/* -------------------  MOBILE  --------------------- */
+
+/* #root {
+  display: flex;
+} */
+
+body {
+  display: flex;
+  flex-direction: column;
+  font-family: Arial;
+  min-height: 100vh;
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  width: 100%;
+  background-color: navy;
+}
+
+#rover-select {
+  width: 100%;
+  height: 20vh;
+  display: flex;
+  background-color: aliceblue;
+  border: 2px solid black;
+}
+
+.rover-button {
+  flex: 1;
+  height: 100%;
+  border: 3px dashed red;
+  color: black;
+}
+
+.rover-button:hover {
+  color:blue;
+}
+
+
+/* replace with an onclick function */
+.rover-button:visited {
+  border: 4px solid yellow;
+}
+
+#facts {
+  height: 25vh;
+  background-color: blanchedalmond;
+}
+
+#gallery {
+  border: 2px solid black
+}
+
+main {
+  flex: 1;
+  padding: 20px;
+}
+
+footer {
+  /* footer styles */
+}
+
+/* -------------------  TABLET  --------------------- */
+@media (min-width: 768px) {
+  header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    width: 100%;
+    color: white;
+    background-color: navy;
+  }}
+
+/* -------------------  DESKTOP  -------------------- */
+
+@media (min-width: 1224px) {
+  /* use desktop */
+  header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    width: 100%;
+    background-color: navy;
+  }
+
+  #rover-select {
+    width: 100%;
+    height: 20vh;
+    display: flex;
+    background-color: aliceblue;
+    border: 2px solid black;
+  }
+}
+
+/* -------------------  LARGE SCREENS  -------------- */
+
+@media (min-width: 1824px) {
+  /* use largescreen */
+  header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    width: 100%;
+    background-color: navy;
+  }
+
+  #rover-select {
+    width: 100%;
+    height: 20vh;
+    display: flex;
+    background-color: aliceblue;
+    border: 2px solid black;
+  }
+}
