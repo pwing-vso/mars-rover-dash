@@ -14,9 +14,22 @@ const updateStore = (store, newState) => {
 
 
 // replaces the filler content of root in index.html with the return value of App
+// and implements component logic
 const render = async (root, state) => {
     root.innerHTML = App(state)
+    const roverButtons = document.getElementsByClassName('rover-button');
+    
 }
+
+// pure?? or separate Facts function
+function selectRover(whichone) {
+        console.log(whichone)
+        // whichone.style.borderBottom = "4px solid blue";
+        whichone.classList.toggle("rover-button-active")
+        document.getElementById("facts").style.display = "block"
+}
+
+// need: on click rover buttons, make that button bordered and display the facts div
 
 
 // create content
@@ -29,9 +42,9 @@ const App = (state) => {
             <p>Mars Rover Dash</p>
         </header>
         <div id="rover-select">
-            <div class="rover-button">R1</div>
-            <div class="rover-button">R2</div>
-            <div class="rover-button">R3</div>
+            <div class="rover-button" onclick="selectRover(this)">R1</div>
+            <div class="rover-button" onclick="selectRover(this)">R2</div>
+            <div class="rover-button" onclick="selectRover(this)">R3</div>
         </div>
         <div id="facts">
         </div>
@@ -42,6 +55,8 @@ const App = (state) => {
     `
 
 
+
+    
     // return `
     //     <header></header>
     //     <main>
@@ -70,6 +85,8 @@ window.addEventListener('load', () => {
 })
 
 // ------------------------------------------------------  COMPONENTS
+
+
 
 // Pure function that renders conditional information -- THIS IS JUST AN EXAMPLE, you can delete it.
 // const Greeting = (name) => {
