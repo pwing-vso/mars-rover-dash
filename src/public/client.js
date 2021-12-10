@@ -22,11 +22,13 @@ const render = async (root, state) => {
 }
 
 // pure?? or separate Facts function
-function selectRover(whichone) {
-        console.log(whichone)
-        // whichone.style.borderBottom = "4px solid blue";
-        whichone.classList.toggle("rover-button-active")
-        document.getElementById("facts").style.display = "block"
+function selectRover(activeRover) {
+    const roverNames = ["curiosity", "spirit", "opportunity"];
+    const deactivate = roverNames.filter((roverName) => !(roverName === activeRover) );
+    document.getElementById(deactivate[0]).classList.remove("rover-button-active")
+    document.getElementById(deactivate[1]).classList.remove("rover-button-active")
+    document.getElementById(activeRover).classList.add("rover-button-active")
+    document.getElementById("facts").style.display = "block"
 }
 
 // need: on click rover buttons, make that button bordered and display the facts div
@@ -42,9 +44,9 @@ const App = (state) => {
             <p>Mars Rover Dash</p>
         </header>
         <div id="rover-select">
-            <div class="rover-button" onclick="selectRover(this)">R1</div>
-            <div class="rover-button" onclick="selectRover(this)">R2</div>
-            <div class="rover-button" onclick="selectRover(this)">R3</div>
+            <div class="rover-button" id="curiosity" onclick="selectRover('curiosity')">R1</div>
+            <div class="rover-button" id="spirit" onclick="selectRover('spirit')">R2</div>
+            <div class="rover-button" id="opportunity" onclick="selectRover('opportunity')">R3</div>
         </div>
         <div id="facts">
         </div>
