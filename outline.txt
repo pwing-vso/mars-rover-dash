@@ -4,3 +4,36 @@
 - refill with API data
 - see about pulling a few pics
 - flex pics and pull all
+
+
+rover stats:
+
+CURIOSITY: {
+    launch-date: "7:02 a.m. PST, Nov. 26, 2011",
+    landing-date: "10:32 p.m. PDT, Aug. 5, 2012",
+    landing-site: "Gale Crater",
+    mission-length: "ongoing",
+    NASA-mission-statement: "Did Mars ever have the right environmental conditions to support small life forms called microbes?"
+}
+
+SPIRIT: {
+    launch-date: "June 10, 2003 / 17:58:47 UT",
+    landing-date: "04:26 UT Jan. 4, 2004:
+    landing-site: "Gusev Crater",
+    mission-length: "7 years, 11 months, 13 days",
+    NASA-mission-statement: "To study the history of climate and water at sites on Mars where conditions may once have been favorable to life.",
+}
+
+OPPORTUNITY: {
+    NASA-mission-statement: "To study the history of climate and water at sites on Mars where conditions may once have been favorable to life.",
+    launch-date: "July 8, 2003 / 03:18:15 UT",
+    landing-date: "Jan. 25, 2004 / 04:54 UT":
+    landing-site: "Meridiani Planum (Eagle Crater)",
+    mission-length: "14 years, 11 months, 1 day ",
+}
+
+
+how we do this
+
+- display factoids in the facts div, pull from store
+- when rover clicked, update store to reflect active

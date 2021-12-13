@@ -1,7 +1,31 @@
+const rovers = {
+    curiosity: {
+        launchDate: "7:02 a.m. PST, Nov. 26, 2011",
+        landingDate: "10:32 p.m. PDT, Aug. 5, 2012",
+        landingSite: "Gale Crater",
+        missionDuration: "ongoing",
+        NASAMissionStatement: "Did Mars ever have the right environmental conditions to support small life forms called microbes?"
+    }, 
+    opportunity: {
+        NASAMissionStatement: "To study the history of climate and water at sites on Mars where conditions may once have been favorable to life.",
+        launchDate: "July 8, 2003 / 03:18:15 UT",
+        landingDate: "Jan. 25, 2004 / 04:54 UT",
+        landingSite: "Meridiani Planum (Eagle Crater)",
+        missionDuration: "14 years, 11 months, 1 day ",
+    }, 
+    spirit: {
+        launchDate: "June 10, 2003 / 17:58:47 UT",
+        landingDate: "04:26 UT Jan. 4, 2004",
+        landingSite: "Gusev Crater",
+        missionDuration: "7 years, 11 months, 13 days",
+        NASAMissionStatement: "To study the history of climate and water at sites on Mars where conditions may once have been favorable to life.",
+    }
+}
+
 let store = {
-    user: { name: "Student" },
-    apod: '',
-    rovers: ['Curiosity', 'Opportunity', 'Spirit'],
+    user: {
+        name: "Student"
+    },
 }
 
 // add our markup to the page
@@ -17,26 +41,55 @@ const updateStore = (store, newState) => {
 // and implements component logic
 const render = async (root, state) => {
     root.innerHTML = App(state)
-    const roverButtons = document.getElementsByClassName('rover-button');
-    
+    // const roverButtons = document.getElementsByClassName('rover-button');
+
 }
 
-// pure?? or separate Facts function
+
+// function selectRover(activeRover) {
+//     const newStore  = {
+//         user: store.name,
+//         activeRover: activeRover,
+//     };
+    
+//     updateStore(store, newStore)
+// }
+
+
+
+// Higher-order function that returns another function
+// Not 100% pure, but mentor has commented "It is a side effect, but working with the dom manipulations, 
+// animations are side effect in nature. So you are not expected to purely write everything, but some parts of the project."
 function selectRover(activeRover) {
     const roverNames = ["curiosity", "spirit", "opportunity"];
-    const deactivate = roverNames.filter((roverName) => !(roverName === activeRover) );
+    const deactivate = roverNames.filter((roverName) => !(roverName === activeRover));
     document.getElementById(deactivate[0]).classList.remove("rover-button-active")
     document.getElementById(deactivate[1]).classList.remove("rover-button-active")
     document.getElementById(activeRover).classList.add("rover-button-active")
-    document.getElementById("facts").style.display = "block"
+    
+    return updateFactsBox(activeRover).then(
+        document.getElementById("facts").style.display = "block"
+    )
 }
 
-// need: on click rover buttons, make that button bordered and display the facts div
-
+async function updateFactsBox(activeRover) {
+    return document.getElementById("facts").innerHTML = `
+        <p>The Mission</p>
+            <ul>
+                <li>NASA Directive: ${rovers[activeRover].NASAMissionStatement}</li>
+                <li>Launch Date: ${rovers[activeRover].launchDate}</li>
+                <li>Landing Date: ${rovers[activeRover].landingDate}</li>
+                <li>Landing Site: ${rovers[activeRover].landingSite}</li>
+                <li>Mission Duration: ${rovers[activeRover].missionDuration}</li>
+            </ul>
+    `
+}
 
 // create content
 const App = (state) => {
-    let { apod } = state // rovers, 
+    // let {
+    //     apod
+    // } = state // rovers, 
 
     return `
         <header>
@@ -58,7 +111,7 @@ const App = (state) => {
 
 
 
-    
+
     // return `
     //     <header></header>
     //     <main>
@@ -116,7 +169,7 @@ window.addEventListener('load', () => {
 //         getImageOfTheDay(store)
 //     }
 
-    // check if the photo of the day is actually type video!
+// check if the photo of the day is actually type video!
 //     if (apod.media_type === "video") {
 //         return (`
 //             <p>See today's featured video <a href="${apod.url}">here</a></p>
@@ -135,11 +188,15 @@ window.addEventListener('load', () => {
 
 // Example API call
 const getImageOfTheDay = (state) => {
-    let { apod } = state
+    let {
+        apod
+    } = state
 
     fetch(`./apod`)
         .then(res => res.json())
-        .then(apod => updateStore(store, { apod }))
+        .then(apod => updateStore(store, {
+            apod
+        }))
 
     return data
 }

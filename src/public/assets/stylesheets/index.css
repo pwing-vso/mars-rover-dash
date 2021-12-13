@@ -29,6 +29,7 @@ header {
   flex: 1;
   height: 100%;
   color: black;
+  transition: all .2s ease-in-out; 
 }
 
 .rover-button-active {
@@ -36,15 +37,15 @@ header {
   height: 100%;
   color: black;
   border-bottom: 5px solid blue;
+  border-radius: 5px;
 }
 
 .rover-button:hover {
-  color:blue;
+  transition: all .2s ease-in-out; 
   cursor: pointer;
+  transform: scale(0.95); 
+  /* border-bottom: 10px solid blue; */
 }
-
-
-/* replace with an onclick function */
 
 
 #facts {
