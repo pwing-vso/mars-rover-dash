@@ -22,10 +22,13 @@ const rovers = {
     }
 }
 
+
+// i say, shall we use the store to hold our gallery
 let store = {
     user: {
         name: "Student"
     },
+    activeRover: ''
 }
 
 // add our markup to the page
@@ -46,13 +49,11 @@ const render = async (root, state) => {
 }
 
 
-// function selectRover(activeRover) {
-//     const newStore  = {
-//         user: store.name,
-//         activeRover: activeRover,
-//     };
-    
-//     updateStore(store, newStore)
+// const getRoverGallery = (rover) => {
+//     const result = fetch(`./${rover}`)
+//     .then(res => res.json())
+//     console.log(result)
+//     return result
 // }
 
 
@@ -66,6 +67,8 @@ function selectRover(activeRover) {
     document.getElementById(deactivate[0]).classList.remove("rover-button-active")
     document.getElementById(deactivate[1]).classList.remove("rover-button-active")
     document.getElementById(activeRover).classList.add("rover-button-active")
+
+    location.hash = activeRover
     
     return updateFactsBox(activeRover).then(
         document.getElementById("facts").style.display = "block"
@@ -73,6 +76,8 @@ function selectRover(activeRover) {
 }
 
 async function updateFactsBox(activeRover) {
+    const roverGallery = await fetch(`./${activeRover}`).then(res => res.json());
+    console.log(roverGallery);
     return document.getElementById("facts").innerHTML = `
         <p>The Mission</p>
             <ul>
@@ -82,7 +87,8 @@ async function updateFactsBox(activeRover) {
                 <li>Landing Site: ${rovers[activeRover].landingSite}</li>
                 <li>Mission Duration: ${rovers[activeRover].missionDuration}</li>
             </ul>
-    `
+        <p>${roverGallery}</p>
+        `
 }
 
 // create content
@@ -201,10 +207,20 @@ const getImageOfTheDay = (state) => {
     return data
 }
 
+// const getRoverGallery = (state) => {
+//     let {
+//         gallery
+//     } = state
 
-// My components
-// -------------
-// Header bar
-// 3 rovers emitters
-// Rover facts listener
-// Rover gallery listener
+//     const result = fetch(`./#curiosity`)
+//         .then(res => {
+//             console.log(res);
+//             console.log(res.json);
+//             return res.json()
+//         })
+//         .then(gallery => updateStore(store, {
+//             gallery
+//         }))
+
+//     return result
+// }
