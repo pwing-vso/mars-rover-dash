@@ -1,11 +1,13 @@
 /* -------------------  MOBILE  --------------------- */
 
 
+
 body {
   display: flex;
   flex-direction: column;
   font-family: Arial;
   min-height: 100vh;
+  background-color: black;
 }
 
 header {
@@ -42,8 +44,8 @@ header {
 
 .rover-button:hover {
   transition: all .2s ease-in-out; 
-  cursor: pointer;
   transform: scale(0.95); 
+  cursor: pointer;
   /* border-bottom: 10px solid blue; */
 }
 
@@ -55,7 +57,18 @@ header {
 }
 
 #gallery {
-  border: 2px solid black
+  display: flex;
+  border: 2px solid black;
+}
+
+.picWrapper {
+  width: 100%;
+  aspect-ratio: 1;
+}
+
+.picWrapper:hover {
+  transition: all .2s ease-in-out; 
+  transform: scale(0.95);
 }
 
 main {

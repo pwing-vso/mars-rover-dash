@@ -28,8 +28,10 @@ let store = {
     user: {
         name: "Student"
     },
-    activeRover: ''
+    activeRover: '',
+    maxSol: ''
 }
+
 
 // add our markup to the page
 const root = document.getElementById('root')
@@ -76,8 +78,14 @@ function selectRover(activeRover) {
 }
 
 async function updateFactsBox(activeRover) {
-    const roverGallery = await fetch(`./${activeRover}`).then(res => res.json());
-    console.log(roverGallery);
+    await getMaxSol(activeRover);
+    await getPhotoGallery(activeRover);
+    // await getRecentPhoto(activeRover);
+    // const roverGallery = await fetch(`./${activeRover}`).then(res => res.json());
+    // const roverGallery = await fetch(`./recent/${activeRover}`).then(res => res.json()); // 
+    // console.log(roverGallery.roverGallery.photos[0]);
+    // const imgSrc = roverGallery.roverGallery.photos[0].img_src;
+    // console.log("img src: " + imgSrc);
     return document.getElementById("facts").innerHTML = `
         <p>The Mission</p>
             <ul>
@@ -87,8 +95,50 @@ async function updateFactsBox(activeRover) {
                 <li>Landing Site: ${rovers[activeRover].landingSite}</li>
                 <li>Mission Duration: ${rovers[activeRover].missionDuration}</li>
             </ul>
-        <p>${roverGallery}</p>
+        <p>Most recent photos</p>
         `
+        // <img src=${imgSrc}></img>
+    }
+
+async function getRecentPhoto(activeRover) {
+    const lastPhotoDate = await fetch(`./recent/${activeRover}`).then(res => res.json());
+    console.log("Last photo date data \n" + lastPhotoDate);
+    return document.getElementById("gallery").innerHTML = `Recent photo: ${lastPhotoDate["lastPhotoDate"]["photos"][0][0]["img_src"]}`
+}
+
+async function getPhotoGallery(activeRover) {
+    const latestPhotoData = await fetch(`./${activeRover}/latest`).then(res => res.json());
+    const photoSrcArr = latestPhotoData.latest_photos.latest_photos.map(data => data.img_src).slice(0,24)
+    console.dir(photoSrcArr, {depth: null});
+    
+    photoSrcArr.forEach(url => {
+        
+        const atag = document.createElement("a");
+        atag.href = url;
+        
+        const ind = photoSrcArr.indexOf(url);
+        const picWrapper = document.createElement("div");
+        picWrapper.classList.add("picWrapper")
+        const img = document.createElement("img");
+        img.src = url;
+        img.classList.add("gallery-photo");
+        img.style.width = 100%
+        picWrapper.appendChild(img);
+        atag.appendChild(picWrapper)
+        
+        const cols = document.getElementsByClassName("gallery-col")
+        const col = cols[(ind%4)];
+        col.appendChild(atag)
+    })
+}
+
+// async function getGalleryPhotos()
+
+async function getMaxSol(activeRover) {
+    const manifest = await fetch(`./maxsol/${activeRover}`).then(res => res.json());
+    console.log("Manifest \n" + typeof manifest.manifest);
+    // return document.getElementById("max-sol").innerHTML = `Max Sol: ${manifest.manifest.photo_manifest.max_sol  }`
+    return document.getElementById("max-sol").innerHTML = `Max Sol: ${manifest.manifest}`
 }
 
 // create content
@@ -107,9 +157,14 @@ const App = (state) => {
             <div class="rover-button" id="spirit" onclick="selectRover('spirit')">R2</div>
             <div class="rover-button" id="opportunity" onclick="selectRover('opportunity')">R3</div>
         </div>
+        <p id="max-sol"></p>
         <div id="facts">
         </div>
         <div id="gallery">
+            <div class="gallery-col"></div>
+            <div class="gallery-col"></div>
+            <div class="gallery-col"></div>
+            <div class="gallery-col"></div>
         </div>
 
         
