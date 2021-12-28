@@ -23,7 +23,6 @@ const rovers = {
 }
 
 
-// i say, shall we use the store to hold our gallery
 let store = {
     user: {
         name: "Student"
@@ -46,18 +45,7 @@ const updateStore = (store, newState) => {
 // and implements component logic
 const render = async (root, state) => {
     root.innerHTML = App(state)
-    // const roverButtons = document.getElementsByClassName('rover-button');
-
 }
-
-
-// const getRoverGallery = (rover) => {
-//     const result = fetch(`./${rover}`)
-//     .then(res => res.json())
-//     console.log(result)
-//     return result
-// }
-
 
 
 // Higher-order function that returns another function
@@ -80,24 +68,17 @@ function selectRover(activeRover) {
 async function updateFactsBox(activeRover) {
     // await getMaxSol(activeRover);
     await getPhotoGallery(activeRover);
-    // await getRecentPhoto(activeRover);
-    // const roverGallery = await fetch(`./${activeRover}`).then(res => res.json());
-    // const roverGallery = await fetch(`./recent/${activeRover}`).then(res => res.json()); // 
-    // console.log(roverGallery.roverGallery.photos[0]);
-    // const imgSrc = roverGallery.roverGallery.photos[0].img_src;
-    // console.log("img src: " + imgSrc);
     return document.getElementById("facts").innerHTML = `
         <p>The Mission</p>
             <ul>
-                <li><span style="color:rgb(70, 70, 70); font-size:large; font-style:italic">NASA Directive  |   </span>${rovers[activeRover].NASAMissionStatement}</li>
-                <li><span style="color:rgb(70, 70, 70); font-size:large; font-style:italic">Launch Date  |   </span>${rovers[activeRover].launchDate}</li>
-                <li><span style="color:rgb(70, 70, 70); font-size:large; font-style:italic">Landing Date  |   </span>${rovers[activeRover].landingDate}</li>
-                <li><span style="color:rgb(70, 70, 70); font-size:large; font-style:italic">Landing Site  |   </span>${rovers[activeRover].landingSite}</li>
-                <li><span style="color:rgb(70, 70, 70); font-size:large; font-style:italic">Mission Duration  |   </span>${rovers[activeRover].missionDuration}</li>
+                <li><span class="fact-list">NASA Directive  |   </span>${rovers[activeRover].NASAMissionStatement}</li>
+                <li><span class="fact-list">Launch Date  |   </span>${rovers[activeRover].launchDate}</li>
+                <li><span class="fact-list">Landing Date  |   </span>${rovers[activeRover].landingDate}</li>
+                <li><span class="fact-list">Landing Site  |   </span>${rovers[activeRover].landingSite}</li>
+                <li><span class="fact-list">Mission Duration  |   </span>${rovers[activeRover].missionDuration}</li>
             </ul>
         <p>Most recent photos</p>
         `
-        // <img src=${imgSrc}></img>
     }
 
 async function getRecentPhoto(activeRover) {
@@ -112,23 +93,24 @@ async function getPhotoGallery(activeRover) {
     console.dir(photoSrcArr, {depth: null});
     
     photoSrcArr.forEach(url => {
+        const picWrapper = document.createElement("div");
+        picWrapper.classList.add("picWrapper")
         
         const atag = document.createElement("a");
         atag.href = url;
+        picWrapper.appendChild(atag);
         
         const ind = photoSrcArr.indexOf(url);
-        const picWrapper = document.createElement("div");
-        picWrapper.classList.add("picWrapper")
         const img = document.createElement("img");
         img.src = url;
         img.classList.add("gallery-photo");
-        img.style.width = 100%
-        picWrapper.appendChild(img);
-        atag.appendChild(picWrapper)
+        img.style.maxWidth = "100%";
+        img.style.height = "auto";
+        atag.appendChild(img)
         
         const cols = document.getElementsByClassName("gallery-col")
         const col = cols[(ind%4)];
-        col.appendChild(atag)
+        col.appendChild(picWrapper)
     })
 }
 
@@ -180,27 +162,6 @@ const App = (state) => {
     // <p id="max-sol"></p>
 
 
-
-    // return `
-    //     <header></header>
-    //     <main>
-    //         ${Greeting(store.user.name)}
-    //         <section>
-    //             <h3>Put things on the page!</h3>
-    //             <p>Here is an example section.</p>
-    //             <p>
-    //                 One of the most popular websites at NASA is the Astronomy Picture of the Day. In fact, this website is one of
-    //                 the most popular websites across all federal agencies. It has the popular appeal of a Justin Bieber video.
-    //                 This endpoint structures the APOD imagery and associated metadata so that it can be repurposed for other
-    //                 applications. In addition, if the concept_tags parameter is set to True, then keywords derived from the image
-    //                 explanation are returned. These keywords could be used as auto-generated hashtags for twitter or instagram feeds;
-    //                 but generally help with discoverability of relevant imagery.
-    //             </p>
-    //             ${ImageOfTheDay(apod)}
-    //         </section>
-    //     </main>
-    //     <footer></footer>
-    // `
 }
 
 // listening for load event because page should load before any JS is called
@@ -256,34 +217,16 @@ window.addEventListener('load', () => {
 // ------------------------------------------------------  API CALLS
 
 // Example API call
-const getImageOfTheDay = (state) => {
-    let {
-        apod
-    } = state
-
-    fetch(`./apod`)
-        .then(res => res.json())
-        .then(apod => updateStore(store, {
-            apod
-        }))
-
-    return data
-}
-
-// const getRoverGallery = (state) => {
+// const getImageOfTheDay = (state) => {
 //     let {
-//         gallery
+//         apod
 //     } = state
 
-//     const result = fetch(`./#curiosity`)
-//         .then(res => {
-//             console.log(res);
-//             console.log(res.json);
-//             return res.json()
-//         })
-//         .then(gallery => updateStore(store, {
-//             gallery
+//     fetch(`./apod`)
+//         .then(res => res.json())
+//         .then(apod => updateStore(store, {
+//             apod
 //         }))
 
-//     return result
+//     return data
 // }

@@ -12,7 +12,7 @@ body {
 
 header {
   display: flex;
-  justify-content: left;
+  justify-content: center;
   align-items: center;
   height: 50px;
   width: 100%;
@@ -71,14 +71,28 @@ header {
   padding-top: 1%;
 }
 
+.fact-list {
+  color:rgb(70, 70, 70);
+  font-size:large;
+  font-style:italic
+}
+
 #gallery {
   display: flex;
+  flex-direction: row;
   border: 2px solid black;
+  height: 100%;
+  width: 100%;
+}
+
+.gallery-col {
+  min-width: 0;
 }
 
 .picWrapper {
   width: 100%;
   aspect-ratio: 1;
+  padding: 1px
 }
 
 .picWrapper:hover {
@@ -91,12 +105,12 @@ main {
   /* padding: 20px; */
 }
 
-footer {
-  /* footer styles */
-}
+/* footer {
+  footer styles
+} */
 
 /* -------------------  TABLET  --------------------- */
-@media (min-width: 768px) {
+/* @media (min-width: 768px) {
   header {
     display: flex;
     justify-content: center;
@@ -106,13 +120,14 @@ footer {
     color: white;
     background-color: rgb(40, 40, 40);
     font-size: x-large;
-  }}
+  }
+} */
 
 /* -------------------  DESKTOP  -------------------- */
 
-@media (min-width: 1224px) {
+/* @media (min-width: 1224px) { */
   /* use desktop */
-  header {
+  /* header {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -120,22 +135,23 @@ footer {
     width: 100%;
     background-color: rgb(40, 40, 40);
     font-size: x-large;
-  }
+  } */
 
-  #rover-select {
+  /* #rover-select {
     width: 100%;
     height: 20vh;
     display: flex;
     background-color: aliceblue;
     border: 2px solid black;
-  }
-}
+  } */
+
+/* } */
 
 /* -------------------  larger SCREENS  -------------- */
 
-@media (min-width: 1824px) {
+/* @media (min-width: 1824px) { */
   /* use largerscreen */
-  header {
+  /* header {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -150,6 +166,5 @@ footer {
     height: 20vh;
     display: flex;
     background-color: aliceblue;
-    border: 2px solid black;
-  }
-}
+    border: 2px solid black; */
+  /* } */

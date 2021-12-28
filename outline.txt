@@ -2,3 +2,5 @@ to do
 
 
 - re-render gallery when clicking new rover
+
+- have facts div default to "select a rover" message
