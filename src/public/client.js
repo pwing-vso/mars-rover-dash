@@ -78,7 +78,7 @@ function selectRover(activeRover) {
 }
 
 async function updateFactsBox(activeRover) {
-    await getMaxSol(activeRover);
+    // await getMaxSol(activeRover);
     await getPhotoGallery(activeRover);
     // await getRecentPhoto(activeRover);
     // const roverGallery = await fetch(`./${activeRover}`).then(res => res.json());
@@ -89,11 +89,11 @@ async function updateFactsBox(activeRover) {
     return document.getElementById("facts").innerHTML = `
         <p>The Mission</p>
             <ul>
-                <li>NASA Directive: ${rovers[activeRover].NASAMissionStatement}</li>
-                <li>Launch Date: ${rovers[activeRover].launchDate}</li>
-                <li>Landing Date: ${rovers[activeRover].landingDate}</li>
-                <li>Landing Site: ${rovers[activeRover].landingSite}</li>
-                <li>Mission Duration: ${rovers[activeRover].missionDuration}</li>
+                <li><span style="color:rgb(70, 70, 70); font-size:large; font-style:italic">NASA Directive  |   </span>${rovers[activeRover].NASAMissionStatement}</li>
+                <li><span style="color:rgb(70, 70, 70); font-size:large; font-style:italic">Launch Date  |   </span>${rovers[activeRover].launchDate}</li>
+                <li><span style="color:rgb(70, 70, 70); font-size:large; font-style:italic">Landing Date  |   </span>${rovers[activeRover].landingDate}</li>
+                <li><span style="color:rgb(70, 70, 70); font-size:large; font-style:italic">Landing Site  |   </span>${rovers[activeRover].landingSite}</li>
+                <li><span style="color:rgb(70, 70, 70); font-size:large; font-style:italic">Mission Duration  |   </span>${rovers[activeRover].missionDuration}</li>
             </ul>
         <p>Most recent photos</p>
         `
@@ -134,12 +134,12 @@ async function getPhotoGallery(activeRover) {
 
 // async function getGalleryPhotos()
 
-async function getMaxSol(activeRover) {
-    const manifest = await fetch(`./maxsol/${activeRover}`).then(res => res.json());
-    console.log("Manifest \n" + typeof manifest.manifest);
-    // return document.getElementById("max-sol").innerHTML = `Max Sol: ${manifest.manifest.photo_manifest.max_sol  }`
-    return document.getElementById("max-sol").innerHTML = `Max Sol: ${manifest.manifest}`
-}
+// async function getMaxSol(activeRover) {
+//     const manifest = await fetch(`./maxsol/${activeRover}`).then(res => res.json());
+//     console.log("Manifest \n" + typeof manifest.manifest);
+//     // return document.getElementById("max-sol").innerHTML = `Max Sol: ${manifest.manifest.photo_manifest.max_sol  }`
+//     return document.getElementById("max-sol").innerHTML = `Max Sol: ${manifest.manifest}`
+// }
 
 // create content
 const App = (state) => {
@@ -150,14 +150,22 @@ const App = (state) => {
     return `
         <header>
             <img src="assets/images/mars-favicon.png" height="40px" width="40px" style="margin:10px"/>
-            <p>Mars Rover Dash</p>
+            <p>Mars Rover Dashboard</p>
         </header>
         <div id="rover-select">
-            <div class="rover-button" id="curiosity" onclick="selectRover('curiosity')">R1</div>
-            <div class="rover-button" id="spirit" onclick="selectRover('spirit')">R2</div>
-            <div class="rover-button" id="opportunity" onclick="selectRover('opportunity')">R3</div>
+            <div class="rover-button" id="curiosity" onclick="selectRover('curiosity')">
+                <span>Curiosity</span>
+                <img src="./assets/images/curiosity.png" height="100%"></img>
+            </div>
+            <div class="rover-button" id="spirit" onclick="selectRover('spirit')">
+                <span>Spirit</span>
+                <img src="./assets/images/spirit.png" height="100%"></img>
+            </div>
+            <div class="rover-button" id="opportunity" onclick="selectRover('opportunity')">
+                <span>Opportunity</span>
+                <img src="./assets/images/opportunity.png" height="100%"></img>
+            </div>
         </div>
-        <p id="max-sol"></p>
         <div id="facts">
         </div>
         <div id="gallery">
@@ -169,7 +177,7 @@ const App = (state) => {
 
         
     `
-
+    // <p id="max-sol"></p>
 
 
 

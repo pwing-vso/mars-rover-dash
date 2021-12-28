@@ -1,9 +1,4 @@
-- Replace rover stubs with images maybe from Api
-- if clicked, display factoid div
-    - simply change text, add line or border to rover button
-- refill with API data
-- see about pulling a few pics
-- flex pics and pull all
+to do
 
 
-Pull 3 images and flex, probably
+- re-render gallery when clicking new rover
