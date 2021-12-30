@@ -8,6 +8,8 @@ check if pure functions
  - click rover => update store to active rover (selectRover animations) => update facts with active rover => get gallery with active rover
 - make sure one of these ^ is a HOF
 
+- mobile
+
 assess against Readme
 
 

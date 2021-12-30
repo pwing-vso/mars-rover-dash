@@ -1,5 +1,3 @@
-// const Immutable = require('immutable')
-
 const rovers = {
     curiosity: {
         launchDate: "7:02 a.m. PST, Nov. 26, 2011",
@@ -34,39 +32,52 @@ let store = Immutable.Map({
 // add our markup to the page
 const root = document.getElementById('root')
 
-const updateStore = (store, newState) => {
-    store = Object.assign(store, newState)
-    render(root, store)
+async function updateStore(store, newState, doRender) {
+    store = Object.assign(store, newState);
+    console.log("store: " + store)
+    if(doRender){render(root, store)}
 }
 
 
 // replaces the filler content of root in index.html with the return value of App
-// and implements component logic
 const render = async (root, state) => {
     root.innerHTML = App(state)
 }
 
+// retrieve the latest sol that has photos from Manifest API
+async function getMaxSol() {
+    console.log("hitting getMaxSol")
+    const manifest = await fetch(`./maxsol/${store.toObject().activeRover}`).then(res => res.json());
+    updateStore(store, Immutable.Map({
+        activeRover: store.toObject().activeRover,
+        maxSol: manifest.manifest
+    }), false).then(console.log("store: " + store));
+    // console.log("Manifest \n" + typeof manifest.manifest);
+    // return document.getElementById("max-sol").innerHTML = `Max Sol: ${manifest.manifest.photo_manifest.max_sol  }`
+    // return document.getElementById("max-sol").innerHTML = `Max Sol: ${manifest.manifest}`
+}
 
 // Higher-order function that returns another function
 // Not 100% pure due to animations, however, a mentor has commented "It is a side effect, but working with the dom manipulations, 
 // animations are side effect in nature. So you are not expected to purely write everything, but some parts of the project."
-function selectRover(activeRover) {
+async function selectRover(activeRover) {
+    console.log("hitting selectRover")
     const roverNames = ["curiosity", "spirit", "opportunity"];
     const deactivate = roverNames.filter((roverName) => !(roverName === activeRover));
     document.getElementById(deactivate[0]).classList.remove("rover-button-active")
     document.getElementById(deactivate[1]).classList.remove("rover-button-active")
     document.getElementById(activeRover).classList.add("rover-button-active")
 
-    // location.hash = activeRover
-    
-    return updateFactsBox(activeRover)
-    // .then(
-        // document.getElementById("facts").style.display = "block"
-    // )
+    return updateStore(store, Immutable.Map({
+        activeRover: activeRover,
+        maxSol: store.maxSol
+    }), true)
+    // return updateFactsBox(activeRover)
 }
 
-async function updateFactsBox(activeRover) {
-    await getPhotoGallery(activeRover);
+async function updateFactsBox() {
+    console.log("hitting updateFactsBox")
+    const activeRover = store.toObject().activeRover
     return document.getElementById("facts").innerHTML = `
         <p>Mission</p>
             <ul>
@@ -76,7 +87,7 @@ async function updateFactsBox(activeRover) {
                 <li><span class="fact-list">Landing Site  |   </span>${rovers[activeRover].landingSite}</li>
                 <li><span class="fact-list">Mission Duration  |   </span>${rovers[activeRover].missionDuration}</li>
             </ul>
-        <p>Photos from most recent Mars sol</p>
+        <p>Photos from most recent Mars sol (${store.toObject().maxSol})</p>
         `
     }
 
@@ -86,8 +97,9 @@ async function updateFactsBox(activeRover) {
 //     return document.getElementById("gallery").innerHTML = `Recent photo: ${lastPhotoDate["lastPhotoDate"]["photos"][0][0]["img_src"]}`
 // }
 
-async function getPhotoGallery(activeRover) {
-    const latestPhotoData = await fetch(`./${activeRover}/latest`).then(res => res.json());
+async function getPhotoGallery() {
+    console.log("hitting getPhotoGallery")
+    const latestPhotoData = await fetch(`./${store.toObject().activeRover}/latest`).then(res => res.json());
     const photoSrcArr = latestPhotoData.latest_photos.latest_photos.map(data => data.img_src).slice(0,24)
     
     const cols = [...document.getElementsByClassName("gallery-col")]
@@ -115,23 +127,27 @@ async function getPhotoGallery(activeRover) {
     })
 }
 
-// async function getGalleryPhotos()
-
-async function getMaxSol(activeRover) {
-    const manifest = await fetch(`./maxsol/${activeRover}`).then(res => res.json());
-    updateStore(store, )
-    // console.log("Manifest \n" + typeof manifest.manifest);
-    // return document.getElementById("max-sol").innerHTML = `Max Sol: ${manifest.manifest.photo_manifest.max_sol  }`
-    // return document.getElementById("max-sol").innerHTML = `Max Sol: ${manifest.manifest}`
-}
 
 // create content
-const App = (state) => {
-    // let {
-    //     apod
-    // } = state // rovers, 
+const App = () => {
 
-    // getMaxSol(activeRover);
+    async function isActive() {
+        const arrStore = store.toObject()
+        console.log("store.activeRover = " + arrStore.activeRover)
+        if(arrStore.activeRover) {
+            await getMaxSol();
+            await updateFactsBox();
+            await getPhotoGallery();
+        } else {
+            console.log("No active rover")
+        }
+    }
+
+    // if store has an active rover
+    //  store new facts div (store, maxSol as arg)
+    //  store new gallery div (store)
+    // render both constants below
+
 
     return `
         <header>
@@ -159,10 +175,9 @@ const App = (state) => {
             <div class="gallery-col"></div>
             <div class="gallery-col"></div>
         </div>
-
+    ${isActive()}
         
     `
-    // <p id="max-sol"></p>
 
 
 }
