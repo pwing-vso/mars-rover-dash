@@ -1,3 +1,5 @@
+// const Immutable = require('immutable')
+
 const rovers = {
     curiosity: {
         launchDate: "7:02 a.m. PST, Nov. 26, 2011",
@@ -23,14 +25,11 @@ const rovers = {
 }
 
 
-let store = {
-    user: {
-        name: "Student"
-    },
+let store = Immutable.Map({
     activeRover: '',
     maxSol: ''
 }
-
+)
 
 // add our markup to the page
 const root = document.getElementById('root')
@@ -49,7 +48,7 @@ const render = async (root, state) => {
 
 
 // Higher-order function that returns another function
-// Not 100% pure, but mentor has commented "It is a side effect, but working with the dom manipulations, 
+// Not 100% pure due to animations, however, a mentor has commented "It is a side effect, but working with the dom manipulations, 
 // animations are side effect in nature. So you are not expected to purely write everything, but some parts of the project."
 function selectRover(activeRover) {
     const roverNames = ["curiosity", "spirit", "opportunity"];
@@ -58,18 +57,18 @@ function selectRover(activeRover) {
     document.getElementById(deactivate[1]).classList.remove("rover-button-active")
     document.getElementById(activeRover).classList.add("rover-button-active")
 
-    location.hash = activeRover
+    // location.hash = activeRover
     
-    return updateFactsBox(activeRover).then(
-        document.getElementById("facts").style.display = "block"
-    )
+    return updateFactsBox(activeRover)
+    // .then(
+        // document.getElementById("facts").style.display = "block"
+    // )
 }
 
 async function updateFactsBox(activeRover) {
-    // await getMaxSol(activeRover);
     await getPhotoGallery(activeRover);
     return document.getElementById("facts").innerHTML = `
-        <p>The Mission</p>
+        <p>Mission</p>
             <ul>
                 <li><span class="fact-list">NASA Directive  |   </span>${rovers[activeRover].NASAMissionStatement}</li>
                 <li><span class="fact-list">Launch Date  |   </span>${rovers[activeRover].launchDate}</li>
@@ -77,21 +76,23 @@ async function updateFactsBox(activeRover) {
                 <li><span class="fact-list">Landing Site  |   </span>${rovers[activeRover].landingSite}</li>
                 <li><span class="fact-list">Mission Duration  |   </span>${rovers[activeRover].missionDuration}</li>
             </ul>
-        <p>Most recent photos</p>
+        <p>Photos from most recent Mars sol</p>
         `
     }
 
-async function getRecentPhoto(activeRover) {
-    const lastPhotoDate = await fetch(`./recent/${activeRover}`).then(res => res.json());
-    console.log("Last photo date data \n" + lastPhotoDate);
-    return document.getElementById("gallery").innerHTML = `Recent photo: ${lastPhotoDate["lastPhotoDate"]["photos"][0][0]["img_src"]}`
-}
+// async function getRecentPhoto(activeRover) {
+//     const lastPhotoDate = await fetch(`./recent/${activeRover}`).then(res => res.json());
+//     console.log("Last photo date data \n" + lastPhotoDate);
+//     return document.getElementById("gallery").innerHTML = `Recent photo: ${lastPhotoDate["lastPhotoDate"]["photos"][0][0]["img_src"]}`
+// }
 
 async function getPhotoGallery(activeRover) {
     const latestPhotoData = await fetch(`./${activeRover}/latest`).then(res => res.json());
     const photoSrcArr = latestPhotoData.latest_photos.latest_photos.map(data => data.img_src).slice(0,24)
-    console.dir(photoSrcArr, {depth: null});
     
+    const cols = [...document.getElementsByClassName("gallery-col")]
+    cols.forEach(col => col.innerHTML = "")
+
     photoSrcArr.forEach(url => {
         const picWrapper = document.createElement("div");
         picWrapper.classList.add("picWrapper")
@@ -108,7 +109,7 @@ async function getPhotoGallery(activeRover) {
         img.style.height = "auto";
         atag.appendChild(img)
         
-        const cols = document.getElementsByClassName("gallery-col")
+        
         const col = cols[(ind%4)];
         col.appendChild(picWrapper)
     })
@@ -116,18 +117,21 @@ async function getPhotoGallery(activeRover) {
 
 // async function getGalleryPhotos()
 
-// async function getMaxSol(activeRover) {
-//     const manifest = await fetch(`./maxsol/${activeRover}`).then(res => res.json());
-//     console.log("Manifest \n" + typeof manifest.manifest);
-//     // return document.getElementById("max-sol").innerHTML = `Max Sol: ${manifest.manifest.photo_manifest.max_sol  }`
-//     return document.getElementById("max-sol").innerHTML = `Max Sol: ${manifest.manifest}`
-// }
+async function getMaxSol(activeRover) {
+    const manifest = await fetch(`./maxsol/${activeRover}`).then(res => res.json());
+    updateStore(store, )
+    // console.log("Manifest \n" + typeof manifest.manifest);
+    // return document.getElementById("max-sol").innerHTML = `Max Sol: ${manifest.manifest.photo_manifest.max_sol  }`
+    // return document.getElementById("max-sol").innerHTML = `Max Sol: ${manifest.manifest}`
+}
 
 // create content
 const App = (state) => {
     // let {
     //     apod
     // } = state // rovers, 
+
+    // getMaxSol(activeRover);
 
     return `
         <header>
@@ -148,8 +152,7 @@ const App = (state) => {
                 <img src="./assets/images/opportunity.png" height="100%"></img>
             </div>
         </div>
-        <div id="facts">
-        </div>
+        <div id="facts"><span style="font-style:italic"> | Select a rover to view latest photos</span></div>
         <div id="gallery">
             <div class="gallery-col"></div>
             <div class="gallery-col"></div>

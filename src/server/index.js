@@ -1,5 +1,5 @@
 require('dotenv').config()
-require('dotenv').config()
+// require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
 const fetch = require('node-fetch')
@@ -29,7 +29,7 @@ rovers.forEach(
                 manifest = manifest.photo_manifest.max_sol;
                 res.send({ manifest }); // .photo_manifest.max_sol
             } catch (err) {
-                console.log('Failed to fetch photos:', err)
+                console.log('Failed to fetch manifest:', err)
             }
         })
     }
@@ -55,6 +55,7 @@ rovers.forEach(
     }
 )
 
+// https://api.nasa.gov/mars-photos/api/v1/rovers/opportunity/photos?sol=5111&api_key=DEMO_KEY
 
 // retrieve photo gallery
 
@@ -77,7 +78,7 @@ rovers.forEach(
 // const roversData = ()=>{rovers.forEach((rover)=> {
 //     app.get(`/${rover}`, async (req,res) => {
 //         try {
-//             const roverApi = `https://api.nasa.gov/mars-photos/api/v1/rovers/${rover}/latest_photos?api_key=${process.env.API_KEY}`
+//             const roverApi = `https://api.nasa.gov/mars-photos/api/v1/rovers/spirit/latest_photos?api_key=DEMO_KEY`
 //             const roverImages = await fetch(roverApi)
 //             .then(res => res.json())
 //             res.send({roverImages})
@@ -98,3 +99,15 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 // sample manifest call https://api.nasa.gov/mars-photos/api/v1/manifests/Curiosity?api_key=54Sgt7yCq4WiDUakwxcKplr2tEk8bPh05spAHdVC
 
 // .photo_manifest.max_sol
+
+// probs wont need this
+// if (latest_photos.length > 23) {
+//     res.send({ latest_photos })
+// } else {
+//     do {
+        
+//     } while (latest_photos.length < 24);
+//     let manifest = await fetch(`https://api.nasa.gov/mars-photos/api/v1/manifests/${rover}?api_key=${process.env.API_KEY}`)
+//     .then(res => res.json());
+//     manifest = manifest.photo_manifest.max_sol;
+// }

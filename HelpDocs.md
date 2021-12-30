@@ -20,4 +20,9 @@ dont commit this lol
 - yarn start (You should see your yarn version, that node is funning index.js, and port listening on 3000)
 
 
-You can now visit your local http://127.0.0.1:3000/
+You can now visit your local http://127.0.0.1:3000/ (or whichever port you specify in index.js)
+
+## 3: Accessing the Immutable.js library
+- Add this script tag to the head of your index.html:     
+<script src="https://cdnjs.cloudflare.com/ajax/libs/immutable/3.8.2/immutable.min.js"></script>
+To invoke in your client.js, no imports are needed, simply define your constants as `const myconst = Immutable.myType`

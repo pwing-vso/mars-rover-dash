@@ -1,6 +1,13 @@
 to do
 
 
-- re-render gallery when clicking new rover
+check if pure functions
 
-- have facts div default to "select a rover" message
+ - there should be a few threads for the different functions
+ - upon start: just render the init page
+ - click rover => update store to active rover (selectRover animations) => update facts with active rover => get gallery with active rover
+- make sure one of these ^ is a HOF
+
+assess against Readme
+
+
