@@ -1,14 +1,8 @@
 to do
 
 
-check if pure functions
 
- - there should be a few threads for the different functions
- - upon start: just render the init page
- - click rover => update store to active rover (selectRover animations) => update facts with active rover => get gallery with active rover
-- make sure one of these ^ is a HOF
-
-- mobile
+- mobile: rover buttons should stack vertically, header text probably shrink, gallery go down to two columns
 
 assess against Readme
 

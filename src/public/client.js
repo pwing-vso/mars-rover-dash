@@ -34,24 +34,26 @@ const root = document.getElementById('root')
 
 async function updateStore(store, newState, doRender) {
     store = Object.assign(store, newState);
-    console.log("store: " + store)
-    if(doRender){render(root, store)}
+    if(doRender){render(root)} // , store
 }
 
 
 // replaces the filler content of root in index.html with the return value of App
-const render = async (root, state) => {
-    root.innerHTML = App(state)
+const render = async (root) => { // , state
+    root.innerHTML = App() // state
+}
+
+async function loading() {
+    document.getElementById('gallery').innerHTML = "Loading . . ."
 }
 
 // retrieve the latest sol that has photos from Manifest API
 async function getMaxSol() {
-    console.log("hitting getMaxSol")
     const manifest = await fetch(`./maxsol/${store.toObject().activeRover}`).then(res => res.json());
     updateStore(store, Immutable.Map({
         activeRover: store.toObject().activeRover,
         maxSol: manifest.manifest
-    }), false).then(console.log("store: " + store));
+    }), false)
     // console.log("Manifest \n" + typeof manifest.manifest);
     // return document.getElementById("max-sol").innerHTML = `Max Sol: ${manifest.manifest.photo_manifest.max_sol  }`
     // return document.getElementById("max-sol").innerHTML = `Max Sol: ${manifest.manifest}`
@@ -61,22 +63,27 @@ async function getMaxSol() {
 // Not 100% pure due to animations, however, a mentor has commented "It is a side effect, but working with the dom manipulations, 
 // animations are side effect in nature. So you are not expected to purely write everything, but some parts of the project."
 async function selectRover(activeRover) {
-    console.log("hitting selectRover")
-    const roverNames = ["curiosity", "spirit", "opportunity"];
-    const deactivate = roverNames.filter((roverName) => !(roverName === activeRover));
-    document.getElementById(deactivate[0]).classList.remove("rover-button-active")
-    document.getElementById(deactivate[1]).classList.remove("rover-button-active")
-    document.getElementById(activeRover).classList.add("rover-button-active")
-
-    return updateStore(store, Immutable.Map({
+    await updateStore(store, Immutable.Map({
         activeRover: activeRover,
         maxSol: store.maxSol
     }), true)
-    // return updateFactsBox(activeRover)
+    return true
+}
+
+async function activeRoverClass(activeRover) {
+    console.log("hitting activeRoverClass for rover" + activeRover)
+    const roverNames = ["curiosity", "spirit", "opportunity"];
+    const deactivate = roverNames.filter((roverName) => !(roverName === activeRover));
+    console.log(deactivate);
+    document.getElementById(deactivate[0]).classList.remove("rover-button-active")
+    document.getElementById(deactivate[1]).classList.remove("rover-button-active")
+    document.getElementById(activeRover).classList.add("rover-button-active")
+    console.log(document.getElementById("curiosity").classList)
+    // do {
+    // } while (true);
 }
 
 async function updateFactsBox() {
-    console.log("hitting updateFactsBox")
     const activeRover = store.toObject().activeRover
     return document.getElementById("facts").innerHTML = `
         <p>Mission</p>
@@ -98,12 +105,13 @@ async function updateFactsBox() {
 // }
 
 async function getPhotoGallery() {
-    console.log("hitting getPhotoGallery")
     const latestPhotoData = await fetch(`./${store.toObject().activeRover}/latest`).then(res => res.json());
-    const photoSrcArr = latestPhotoData.latest_photos.latest_photos.map(data => data.img_src).slice(0,24)
+    const photoSrcArr = latestPhotoData.latest_photos.latest_photos.map(data => data.img_src).slice(0,24);
     
-    const cols = [...document.getElementsByClassName("gallery-col")]
-    cols.forEach(col => col.innerHTML = "")
+    // const cols = [...document.getElementsByClassName("gallery-col")]
+    // cols.forEach(col => col.innerHTML = "")
+    gallery = document.getElementById("gallery");
+    gallery.innerHTML = '';
 
     photoSrcArr.forEach(url => {
         const picWrapper = document.createElement("div");
@@ -113,7 +121,6 @@ async function getPhotoGallery() {
         atag.href = url;
         picWrapper.appendChild(atag);
         
-        const ind = photoSrcArr.indexOf(url);
         const img = document.createElement("img");
         img.src = url;
         img.classList.add("gallery-photo");
@@ -121,9 +128,7 @@ async function getPhotoGallery() {
         img.style.height = "auto";
         atag.appendChild(img)
         
-        
-        const col = cols[(ind%4)];
-        col.appendChild(picWrapper)
+        gallery.appendChild(picWrapper)
     })
 }
 
@@ -133,20 +138,19 @@ const App = () => {
 
     async function isActive() {
         const arrStore = store.toObject()
-        console.log("store.activeRover = " + arrStore.activeRover)
         if(arrStore.activeRover) {
+            await loading();
             await getMaxSol();
             await updateFactsBox();
             await getPhotoGallery();
+            await activeRoverClass(arrStore.activeRover)
+            return null
         } else {
-            console.log("No active rover")
+            return null
         }
     }
 
-    // if store has an active rover
-    //  store new facts div (store, maxSol as arg)
-    //  store new gallery div (store)
-    // render both constants below
+    // if store has an active rover, store new facts div (store, maxSol as arg), store new gallery div (store), render both as constants below
 
 
     return `
@@ -156,27 +160,27 @@ const App = () => {
         </header>
         <div id="rover-select">
             <div class="rover-button" id="curiosity" onclick="selectRover('curiosity')">
-                <span>Curiosity</span>
-                <img src="./assets/images/curiosity.png" height="100%"></img>
+                <div class="rover-name">Curiosity</div>
+                <div class="rover-image-wrapper">
+                    <img src="./assets/images/curiosity.png" class="rover-image"></img>
+                </div>
             </div>
             <div class="rover-button" id="spirit" onclick="selectRover('spirit')">
-                <span>Spirit</span>
-                <img src="./assets/images/spirit.png" height="100%"></img>
+                <div class="rover-name">Spirit</div>
+                <div class="rover-image-wrapper">
+                    <img src="./assets/images/spirit.png" class="rover-image"></img>
+                </div>
             </div>
             <div class="rover-button" id="opportunity" onclick="selectRover('opportunity')">
-                <span>Opportunity</span>
-                <img src="./assets/images/opportunity.png" height="100%"></img>
+                <div class="rover-name">Opportunity</div>
+                <div class="rover-image-wrapper">
+                    <img src="./assets/images/opportunity.png" class="rover-image"></img>
+                </div>
             </div>
         </div>
         <div id="facts"><span style="font-style:italic"> | Select a rover to view latest photos</span></div>
-        <div id="gallery">
-            <div class="gallery-col"></div>
-            <div class="gallery-col"></div>
-            <div class="gallery-col"></div>
-            <div class="gallery-col"></div>
-        </div>
+        <div id="gallery"></div>
     ${isActive()}
-        
     `
 
 
