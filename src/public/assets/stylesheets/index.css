@@ -1,113 +1,263 @@
 /* -------------------  MOBILE  --------------------- */
 
-/* #root {
-  display: flex;
-} */
+
 
 body {
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
   font-family: Arial;
   min-height: 100vh;
+  background-color: rgb(17, 17, 17);
 }
 
 header {
   display: flex;
+  order: 0;
   justify-content: center;
   align-items: center;
   height: 50px;
   width: 100%;
-  background-color: navy;
+  background-color: rgb(40, 40, 40);
+  font-family: 'Public Sans', sans-serif;
+  font-size: x-large;
+  color: white
 }
 
 #rover-select {
   width: 100%;
-  height: 20vh;
+  height: 40vh;
+  padding: 2px 4px 2px 2px;
+  margin-bottom: 5px;
+  /* padding-right: 4px; */
   display: flex;
-  background-color: aliceblue;
-  border: 2px solid black;
+  flex-direction: column;
+  order: 1;
+  background-color: black;
+  font-family: 'Unica One', cursive;
+  color: gray;
+	font-size: 56px;
+	-webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: white;
+
 }
 
 .rover-button {
   flex: 1;
-  height: 100%;
-  border: 3px dashed red;
-  color: black;
+  height: 33%;
+  margin: 0px 5px 5px 0px;
+  width: auto;
+  transition: all .2s ease-in-out; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rover-button-active {
+  border-right: 5px solid rgb(141, 54, 4);
+  border-radius: 5px;
 }
 
 .rover-button:hover {
-  color:blue;
+  transition: all .2s ease-in-out; 
+  transform: scale(0.95); 
+  cursor: pointer;
 }
 
+.rover-image-wrapper {
+  flex-grow: 2;
+  display: flex;
+  max-width: 100%;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
 
-/* replace with an onclick function */
-.rover-button:visited {
-  border: 4px solid yellow;
+.rover-image {
+  max-width: 100%;
+  max-height: 100%;
+  aspect-ratio: 1;
+}
+
+.rover-name {
+  flex-grow: 1;
+  padding: 2px;
 }
 
 #facts {
-  height: 25vh;
-  background-color: blanchedalmond;
+  order: 2;
+  height: auto;
+  background-color: lightgrey;
+  color: black;
+  font-family: 'Public Sans', sans-serif;
+  padding-left: 1%;
+  padding-top: 1%;
+  padding-bottom: 2%;
+}
+
+.fact-list {
+  color:rgb(70, 70, 70);
+  font-size:large;
+  font-style:italic
 }
 
 #gallery {
-  border: 2px solid black
+  display: flex;
+  order: 3;
+  flex-direction: row;
+  flex-wrap: wrap;
+  height: 100%;
+  width: 100%;
+  font-family: 'Unica One', cursive;
+  color: rgb(141, 54, 4);
+  font-size: 48px;
 }
 
-main {
-  flex: 1;
-  padding: 20px;
+.picWrapper {
+  width: 100%;
+  /* aspect-ratio: 1; */
+  height: auto;
+  padding: 1px
 }
 
-footer {
-  /* footer styles */
+.picWrapper:hover {
+  transition: all .2s ease-in-out; 
+  transform: scale(0.95);
 }
+
+#root {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  /* padding: 20px; */
+}
+
+/* footer {
+  footer styles
+} */
 
 /* -------------------  TABLET  --------------------- */
 @media (min-width: 768px) {
-  header {
+  /* header {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 50px;
     width: 100%;
     color: white;
-    background-color: navy;
-  }}
+    background-color: rgb(40, 40, 40);
+    font-size: x-large;
+  } */
+
+  #rover-select {
+    width: 100%;
+    height: 25vh;
+    display: flex;
+    flex-direction: row;
+    background-color: black;
+    font-family: 'Unica One', cursive;
+    color: gray;
+    font-size: 24px;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: white;
+  
+  }
+
+  .rover-button {
+    flex: 1;
+    height: 100%;
+    transition: all .2s ease-in-out; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .rover-button-active {
+    border-right: none;
+    border-bottom: 5px solid rgb(141, 54, 4);
+    border-radius: 5px;
+  }
+
+  .picWrapper {
+    width: 33%;
+    aspect-ratio: 1;
+    padding: 1px
+  }
+
+  
+}
 
 /* -------------------  DESKTOP  -------------------- */
 
 @media (min-width: 1224px) {
   /* use desktop */
-  header {
+  /* header {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 50px;
+    height: 75px;
     width: 100%;
-    background-color: navy;
-  }
+    background-color: rgb(40, 40, 40);
+    font-size: x-large;
+  } */
 
-  #rover-select {
+  /* #rover-select {
     width: 100%;
     height: 20vh;
     display: flex;
     background-color: aliceblue;
     border: 2px solid black;
+  } */
+
+  #rover-select {
+    width: 100%;
+    height: 25vh;
+    display: flex;
+    flex-direction: row;
+    background-color: black;
+    font-family: 'Unica One', cursive;
+    color: gray;
+    font-size: 36px;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: white;
+  
   }
+
+  .rover-button {
+    flex: 1;
+    height: 100%;
+    transition: all .2s ease-in-out; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .rover-button-active {
+    border-right: none;
+    border-bottom: 5px solid rgb(141, 54, 4);
+    border-radius: 5px;
+  }
+
+  .picWrapper {
+    width: 25%;
+    aspect-ratio: 1;
+    padding: 1px
+  }
+
 }
 
-/* -------------------  LARGE SCREENS  -------------- */
+/* -------------------  larger SCREENS  -------------- */
 
 @media (min-width: 1824px) {
-  /* use largescreen */
-  header {
+  /* use largerscreen */
+  /* header {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 50px;
     width: 100%;
-    background-color: navy;
+    background-color: rgb(40, 40, 40);
+    font-size: x-large;
   }
 
   #rover-select {
@@ -115,6 +265,39 @@ footer {
     height: 20vh;
     display: flex;
     background-color: aliceblue;
-    border: 2px solid black;
+    border: 2px solid black; */
+
+  #rover-select {
+    width: 100%;
+    height: 25vh;
+    display: flex;
+    flex-direction: row;
+    background-color: black;
+    font-family: 'Unica One', cursive;
+    color: gray;
+    font-size: 40px;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: white;
+  }
+
+  .rover-button {
+    flex: 1;
+    height: 100%;
+    transition: all .2s ease-in-out; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .rover-button-active {
+    border-right: none;
+    border-bottom: 5px solid rgb(141, 54, 4);
+    border-radius: 5px;
+  }
+
+  .picWrapper {
+    width: 25%;
+    aspect-ratio: 1;
+    padding: 1px
   }
 }

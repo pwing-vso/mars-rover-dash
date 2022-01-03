@@ -1,0 +1,9 @@
+to do
+
+
+
+- mobile: rover buttons should stack vertically, header text probably shrink, gallery go down to two columns
+
+assess against Readme
+
+
